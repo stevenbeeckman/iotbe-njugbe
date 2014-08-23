@@ -1,0 +1,22 @@
+{
+  "name": "iotbe-njugbe",
+  "version": "1.0.0",
+  "description": "Server component of the iot.be & njug.be demo application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "arduino",
+    "hapi.js",
+    "internet",
+    "of",
+    "things",
+    "iot"
+  ],
+  "author": "Steven Beeckman",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^6.5.1"
+  }
+}

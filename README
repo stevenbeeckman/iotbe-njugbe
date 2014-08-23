@@ -1,0 +1,6 @@
+README
+======
+
+This application is the server component that will store the light data coming
+from the Arduino.
+
