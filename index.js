@@ -12,6 +12,10 @@ server.route({
 	}
     });
 
+/*
+curl -X POST -H "Content-Type: application/json" -d '{"value": 20}' -i http://iotbe-njugbe.herokuapp.com/sensor/0/measurement
+ */
+
 server.route({
 	method: 'POST'
 	    , path: '/sensor/{sensor_id}/measurement'
@@ -19,7 +23,7 @@ server.route({
 	    handler: function(request, reply){
 		var newMeasurement = new Object();
 		newMeasurement.created_on = new Date();
-		newMeasurement.value = req.payload.value;
+		newMeasurement.value = request.payload.value;
 		sensors[request.params.sensor_id].measurements.push(newMeasurement);
 		reply(newMeasurement);
 	    }
@@ -30,7 +34,7 @@ server.route({
 	method: 'GET'
 	    , path: '/sensor/{sensor_id}/measurements'
 	    , handler: function(request, reply){
-	    reply(sensors[req.params.sensor_id].measurements);
+	    reply(sensors[request.params.sensor_id].measurements);
 	}
 });
 
@@ -46,7 +50,7 @@ server.route({
 	method: 'GET'
 	    , path: '/sensor/{id}'
 	    , handler: function(request, reply){
-	    reply(sensors[req.params.id]);
+	    reply(sensors[request.params.id]);
 	}
 });
 
