@@ -112,7 +112,7 @@ server.route({
 	method: 'GET'
 	    , path: '/sensor/{id}/measurements/since/{start_date}'
 	    , handler: function(request, reply){
-	    var series_key = "sensor-" + request.params.sensor_id;
+	    var series_key = "sensor-" + request.params.id;
 	    var series_start_date = moment(request.params.start_date).format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
 	    var series_end_date = moment().format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
 	    console.log("Getting measurements for " + series_key + " since " + series_start_date);
