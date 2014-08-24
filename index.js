@@ -117,6 +117,7 @@ server.route({
 	    tempodb.read(series_key, series_start_date, series_end_date, null, function(err, result){
 		    if(err){
 			console.log("TempoDB: " + err.status + ": " + err.json);
+			console.dir(err);
 			reply(err);
 		    }else{
 			console.log(result.json);
