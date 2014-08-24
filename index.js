@@ -57,12 +57,31 @@ server.route({
 	}
 });
 
+
 server.route({
 	method: 'GET'
 	    , path: '/sensor/{sensor_id}/measurements'
 	    , handler: function(request, reply){
-	    
-	    reply(sensors[request.params.sensor_id].measurements);
+	    var series_key = "sensor-" + request.params.sensor_id;
+	    var series_start_date = moment("2014-08-24").format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
+	    var series_end_date = moment().format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
+	    tempodb.read(series_key, series_start_date, series_end_date, null, function(err, result){
+		    if(err){
+			console.log("TempoDB: " + err.status + ": " + err.json);
+			reply(err);
+		    }else{
+			console.log(result.json);
+			result.json.data.toArray(function(err, data){
+				if(err){
+				    console.log(err);
+				    reply(err);
+				}else{
+				    console.log("Returning " + data.length + " data points for series " + series_key );
+				    reply(data);
+				}
+			    });
+		    }
+		});
 	}
 });
 
