@@ -68,6 +68,7 @@ server.route({
 	    tempodb.read(series_key, series_start_date, series_end_date, null, function(err, result){
 		    if(err){
 			console.log("TempoDB: " + err.status + ": " + err.json);
+			console.log(err);
 			reply(err);
 		    }else{
 			console.log(result.json);
@@ -114,6 +115,7 @@ server.route({
 	    var series_key = "sensor-" + request.params.sensor_id;
 	    var series_start_date = moment(request.params_start_date).format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
 	    var series_end_date = moment().format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
+	    console.log("Getting measurements for " + series_key + " since " + series_start_date);
 	    tempodb.read(series_key, series_start_date, series_end_date, null, function(err, result){
 		    if(err){
 			console.log("TempoDB: " + err.status + ": " + err.json);
