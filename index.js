@@ -85,14 +85,6 @@ server.route({
 	}
 });
 
-server.route({
-	method: 'GET'
-	    , path: '/sensors'
-	    , handler: function(request, reply){
-	    reply(sensors);
-	}
-});
-
 
 // returns a summary of the time series behind the sensor
 server.route({
@@ -117,14 +109,28 @@ server.route({
 
 server.route({
 	method: 'GET'
-	    , path: '/sensor/{id}/measurements/last/{number_of_samples}'
+	    , path: '/sensor/{id}/measurements/since/{start_date}'
 	    , handler: function(request, reply){
-	    var last_samples = new Array();
-	    var measurements_length = sensors[request.params.id].measurements.length;
-	    for(var i = 0; i < request.params.number_of_samples; i++){
-		last_samples.push(sensors[request.params.id].measurements[measurements_length - 1 - request.params.number_of_samples + i]);
-	    }
-	    reply(last_samples);
+	    var series_key = "sensor-" + request.params.sensor_id;
+	    var series_start_date = moment(request.params_start_date).format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
+	    var series_end_date = moment().format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
+	    tempodb.read(series_key, series_start_date, series_end_date, null, function(err, result){
+		    if(err){
+			console.log("TempoDB: " + err.status + ": " + err.json);
+			reply(err);
+		    }else{
+			console.log(result.json);
+			result.json.data.toArray(function(err, data){
+				if(err){
+				    console.log(err);
+				    reply(err);
+				}else{
+				    console.log("Returning " + data.length + " data points for series " + series_key );
+				    reply(data);
+				}
+			    });
+		    }
+		});	    
 	}
 });
 
