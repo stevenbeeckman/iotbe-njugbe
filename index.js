@@ -28,13 +28,18 @@ server.route({
 		//newMeasurement.created_on = new Date();
 		//newMeasurement.value = request.payload.value;
 		//sensors[request.params.sensor_id].measurements.push(newMeasurement);
-		tempodb.write_key(request.params.sensor_id, {t: new Date(), v: request.payload.value}, function(result){ 
-			var out = result.status;
-			if(result.json){
-			    out += ': ' + JSON.stringify(result.json);
-			}
-			console.log(out + '\n');
-			reply(result); 
+		tempodb.write_key(request.params.sensor_id, {t: new Date(), v: request.payload.value}, function(error, result){ 
+			if(error){
+			    console.dir(error);
+			    reply(error);
+			}else{
+			    var out = result.status;
+			    if(result.json){
+				out += ': ' + JSON.stringify(result.json);
+			    }
+			    console.log(out + '\n');
+			    reply(result);
+			} 
 		    });
 
 		//reply(newMeasurement);
