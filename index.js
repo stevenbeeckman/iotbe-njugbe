@@ -25,11 +25,17 @@ server.route({
 	    , config: {
 	    handler: function(request, reply){
 		var newMeasurement = new Object();
-		newMeasurement.created_on = new Date();
-		newMeasurement.value = request.payload.value;
+		newMeasurement.t = new Date();
+		newMeasurement.v = request.payload.value;
 		console.dir(newMeasurement);
 		//sensors[request.params.sensor_id].measurements.push(newMeasurement);
-		tempodb.write_key('sensor-' + request.params.sensor_id, [{t: newMeasurement.created_on, v: newMeasurement.value}], function(error, result){ 
+		var tempodb_data = new Array();
+		tempodb_data.push(newMeasurement);
+
+		var series_key = 'sensor-' + request.params.sensor_id;
+		console.log("Data for series " + series_key + ":");
+		console.dir(tempodb_data);
+		tempodb.write_key(series_key, tempodb_data, function(error, result){ 
 			if(error){
 			    console.log("An error occured when writing to TempoDB.");
 			    console.dir(error);
