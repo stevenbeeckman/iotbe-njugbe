@@ -35,6 +35,7 @@ server.route({
 			    console.dir(error);
 			    reply(error);
 			}else{
+			    console.dir(result);
 			    var out = result.status;
 			    if(result.json){
 				out += ': ' + JSON.stringify(result.json);
