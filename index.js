@@ -1,7 +1,7 @@
 var Hapi = require('hapi');
 var server = new Hapi.Server(process.env.PORT || 3000);
 var TempoDBClient = require('tempodb').TempoDBClient;
-var tempodb = new TempoDBClient(process.env.TEMPODB_API_KEY, process.env.TEMPODB_API_SECRET);
+var tempodb = new TempoDBClient(process.env.TEMPODB_API_KEY, process.env.TEMPODB_API_SECRET, {hostname: process.env.TEMPODB_API_HOST, port: process.env.TEMPODB_API_PORT});
 
 
 var sensors = new Array();
