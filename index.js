@@ -41,13 +41,13 @@ server.route({
 			    console.dir(error);
 			    reply(error);
 			}else{
-			    console.dir(result);
+			    //console.dir(result);
 			    var out = result.status;
 			    if(result.json){
 				out += ': ' + JSON.stringify(result.json);
 			    }
 			    console.log(out);
-			    console.log(result.response);
+			    //console.log(result.response);
 			    reply(result);
 			} 
 		    });
@@ -61,6 +61,7 @@ server.route({
 	method: 'GET'
 	    , path: '/sensor/{sensor_id}/measurements'
 	    , handler: function(request, reply){
+	    
 	    reply(sensors[request.params.sensor_id].measurements);
 	}
 });
@@ -73,11 +74,23 @@ server.route({
 	}
 });
 
+
+// returns a summary of the time series behind the sensor
 server.route({
 	method: 'GET'
 	    , path: '/sensor/{id}'
 	    , handler: function(request, reply){
-	    reply(sensors[request.params.id]);
+	    var series_key = "sensor-" + request.params.id;
+	    var series_start_date = moment("2014-08-24").format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
+	    var series_end_date = moment().format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
+	    tempodb.getSummary(series_key, series_start_date, series_end_date, function(error, result){});
+	    if(error){
+		console.log(error);
+		reply(error);
+	    }else{
+		console.log(result.json);
+		reply(result.json);
+	    }
 	}
 });
 
