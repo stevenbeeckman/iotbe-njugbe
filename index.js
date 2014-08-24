@@ -27,7 +27,7 @@ server.route({
 		var newMeasurement = new Object();
 		newMeasurement.t = moment().format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
 		newMeasurement.v = request.payload.value;
-		console.dir(newMeasurement);
+		//console.dir(newMeasurement);
 		//sensors[request.params.sensor_id].measurements.push(newMeasurement);
 		var tempodb_data = new Array();
 		tempodb_data.push(newMeasurement);
