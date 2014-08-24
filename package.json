@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "hapi": "^6.5.1",
+    "moment": "^2.8.2",
     "tempodb": "^1.0.0"
   }
 }
