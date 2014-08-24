@@ -2,7 +2,7 @@ var Hapi = require('hapi');
 var server = new Hapi.Server(process.env.PORT || 3000);
 var TempoDBClient = require('tempodb').TempoDBClient;
 var tempodb = new TempoDBClient('heroku-5e2f03bd25cf424098426a8a21db26f3', process.env.TEMPODB_API_KEY, process.env.TEMPODB_API_SECRET, {hostname: process.env.TEMPODB_API_HOST, port: process.env.TEMPODB_API_PORT});
-
+var moment = require('moment');
 
 var sensors = new Array();
 sensors[0] = {id: 0, name: 'Photo Resistor', measurements: new Array()};
@@ -25,7 +25,7 @@ server.route({
 	    , config: {
 	    handler: function(request, reply){
 		var newMeasurement = new Object();
-		newMeasurement.t = new Date();
+		newMeasurement.t = moment().format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
 		newMeasurement.v = request.payload.value;
 		console.dir(newMeasurement);
 		//sensors[request.params.sensor_id].measurements.push(newMeasurement);
