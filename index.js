@@ -1,5 +1,8 @@
 var Hapi = require('hapi');
 var server = new Hapi.Server(process.env.PORT || 3000);
+var TempoDBClient = require('tempodb').TempoDBClient;
+var tempodb = new TempoDBClient(process.env.TEMPODB_API_KEY, process.env.TEMPODB_API_SECRET);
+
 
 var sensors = new Array();
 sensors[0] = {id: 0, name: 'Photo Resistor', measurements: new Array()};
@@ -21,11 +24,13 @@ server.route({
 	    , path: '/sensor/{sensor_id}/measurement'
 	    , config: {
 	    handler: function(request, reply){
-		var newMeasurement = new Object();
-		newMeasurement.created_on = new Date();
-		newMeasurement.value = request.payload.value;
-		sensors[request.params.sensor_id].measurements.push(newMeasurement);
-		reply(newMeasurement);
+		//var newMeasurement = new Object();
+		//newMeasurement.created_on = new Date();
+		//newMeasurement.value = request.payload.value;
+		//sensors[request.params.sensor_id].measurements.push(newMeasurement);
+		tempodb.write_key(request.params.sensor_id, {t: new Date(), v: request.payload.value}, function(result){ reply(result); });
+
+		//reply(newMeasurement);
 	    }
 	}
 });
