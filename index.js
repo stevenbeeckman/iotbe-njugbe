@@ -54,6 +54,18 @@ server.route({
 	}
 });
 
+server.route({
+	method: 'GET'
+	    , path: '/sensor/{id}/measurements/last/{number_of_samples}'
+	    , handler: function(request, reply){
+	    var last_samples = new Array();
+	    var measurements_length = sensors[request.params.id].measurements.length;
+	    for(var i = 0; i < request.params.number_of_samples; i++){
+		last_samples.push(sensors[request.params.id].measurements[measurements_length - 1 - request.params.number_of_samples + i]);
+	    }
+	    reply(last_samples);
+	}
+});
 
 
 server.start(function(){
