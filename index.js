@@ -83,14 +83,16 @@ server.route({
 	    var series_key = "sensor-" + request.params.id;
 	    var series_start_date = moment("2014-08-24").format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
 	    var series_end_date = moment().format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
-	    tempodb.getSummary(series_key, series_start_date, series_end_date, function(error, result){});
-	    if(error){
-		console.log(error);
-		reply(error);
-	    }else{
-		console.log(result.json);
-		reply(result.json);
-	    }
+	    tempodb.getSummary(series_key, series_start_date, series_end_date, function(error, result){;
+		    if(error){
+			console.log(error);
+			reply(error);
+		    }else{
+			console.log(result.json);
+			reply(result.json);
+		    }
+		}
+		);
 	}
 });
 
