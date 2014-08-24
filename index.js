@@ -40,6 +40,7 @@ server.route({
 				out += ': ' + JSON.stringify(result.json);
 			    }
 			    console.log(out);
+			    console.log(result.response);
 			    reply(result);
 			} 
 		    });
